@@ -9,9 +9,6 @@
 #
 # Version: 1.04 - 01/21/2009
 #
-# Author: Paul Jendrowski  - paul.jendrowski@noaa.gov
-#         NOAA/NWS WFO RNK Blacksburg, VA
-#
 #  This module provides methods to merge the content of a previous
 #  issuance of a product into the new text created by a GFE formatter.
 #  For narrative products like the ZFP and CWF, short term updates
