@@ -40,8 +40,6 @@ class createXML:
         file=re.sub('\.', '', file)
         file=file.replace("dat", "")
         outfile= file + "-" +  outfile
-        print outfile 
-        print "TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT"
         with open(outfile, 'w') as f:
 
 #    Get the storm name from the name of the file replaces the string ATCF in the xml file with the stormmane
@@ -102,7 +100,6 @@ class createXML:
                lat_str=splitline[7]
                if lat_str == "":
                   lat_str="700N"
-               print lat_str  
                lon_str=splitline[8]
                if lon_str == "":
                   lon_str="900W"
@@ -138,8 +135,8 @@ class createXML:
             pressure=float(pressure_str)
 
             if re.search(model,currentmodel):
-                print currentmodel
-
+                #print currentmodel
+                 noprint=1
             modeltest=str(model) 
             if modeltest=="BEST" or modeltest== "FDECK":     
                 requestedtime=time
@@ -147,10 +144,9 @@ class createXML:
                 if re.search(model,currentmodel):
                     printline = {'lat':lat, 'lon':lon, 'pressure':pressure, 'time':time, 'model':currentmodel, 'hour':hour}
                     simplelist.append(printline) 
-                    print "Match Found"
-                    print currentmodel
                 else:
-                    print "no match"
+                    #print "no match"
+                    nomatch=1 
         return simplelist 
 
 
@@ -161,7 +157,6 @@ class createXML:
         deckfilename= self.deckfilename
 
         size=len(modeldata)
-        print size
         sum = 0
 #    Create the standard xml header needed for PGEN in AWIPS2 
 
@@ -207,8 +202,7 @@ class createXML:
             hour = currentline['hour']
         
             if pressure == 0:
-                print "pressure missing"
-                print pressure
+                printpressure=1
 
 # 1008 is the threshold for Atlantic 
             modeltest=str(modelname)
@@ -274,8 +268,6 @@ class createXML:
         deckfilename= self.deckfilename
 
 
-        print "-------------------------Mello----------------------------------------------------------------"
-        print modelname 
 
         modeltest=str(modelname)
         if modeltest=="BEST" or modeltest=="FDECK":
@@ -283,7 +275,6 @@ class createXML:
         else:
           all_tracks = {'tracks{}'.format(tau):{'xml':[], 'tau':tau} for tau in range(0, 241, 6)}
         size=len(modeldata)
-        print size
         sum = 0
         header=[]    
         header+= ['<?xml version="1.0" encoding="UTF-8" standalone="yes"?>']
@@ -314,8 +305,8 @@ class createXML:
             lineWidth="1.0"
  
             if pressure == 0:
-                print "pressure missing"
-                print pressure
+                #print "pressure missing"
+                printpressure=1
         
             if pressure < 1009 and pressure != 0:   
                 body=[] 
@@ -327,19 +318,16 @@ class createXML:
                    blue="255"
                    red="0"
                    green="0"
-                   print "Tropical Storm" 
 
                 if pressure <= 990 and pressure > 965:
                    blue="0"
                    red="255"
                    green="0"
-                   print "Hurricane"
 
                 if pressure <= 965:
                    blue="255"
                    red="255"
                    green="0"
-                   print "Major Hurricane" 
 
                 modeltest=str(modelname)
                 if modeltest=="BEST":
@@ -393,14 +381,11 @@ class createXML:
 
 
 
-print " _________________   START MAIN PROGRAM ________________________________"
 
 deckfilename= sys.argv[1]
 modelname= sys.argv[2]
 requestedtime= sys.argv[3]
 
-print deckfilename
-print "-------------------------------------------------------"
 with open(deckfilename, 'r') as f: #open the file
      contents = open(deckfilename, 'r').readlines() #put the lines to a variable (list).
 
